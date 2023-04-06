@@ -9,8 +9,8 @@ class TicketStatus(models.TextChoices):
     IN_REVIEW = 'In Review'
     DONE = 'Done'
 
-class Ticker(models.Model):
-    title = models.CharField(max_length=10000)
+class Ticket(models.Model):
+    title = models.CharField(max_length=1000)
     assignee = models.ForeignKey(User, null=True, blank = True,
     on_delete=models.CASCADE)
     status = models.CharField(max_length=25,

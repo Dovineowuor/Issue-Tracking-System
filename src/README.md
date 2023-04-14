@@ -1,9 +1,4 @@
-# Issue-Tracking-System
-Tracking System (Trello-Of-Africa)
-
-This is a project to build an issue tracking system.
-
-# App Features Repository
+# Source File Repository
 
 This repository showcases all the respective features implemented on this app with redference to their files. Each fdirectory conteis respective app functionality.
 
@@ -141,4 +136,5 @@ teams app handles team management and administration
 The templates directory contains all the HTML templates used in the project, and the static directory contains all the static files like CSS, JavaScript, and images.
 
 The settings.py file in the root directory contains the project settings, and the urls.py file contains the project URLs.
+
 

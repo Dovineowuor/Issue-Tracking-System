@@ -1,6 +1,7 @@
 from django.apps import AppConfig
 
-
 class BoardConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'Board'
+    name = 'apps.Board'
+    label = 'board'
+    verbose_name = 'Board'

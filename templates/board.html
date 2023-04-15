@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ board.name }}</h1>
+  <img src="{{ board.background.url }}" alt="{{ board.name }} background">
+  <hr>
+  {% for list in lists %}
+    <h2>{{ list.name }}</h2>
+    <ul>
+      {% for card in cards %}
+        {% if card.list == list %}
+          <li>{{ card.name }}</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+    <form method="post" action="{% url 'create_card' list_id=list.id %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="Card name">
+      <input type="text" name="description" placeholder="Card description">
+      <input type="date" name="due_date" placeholder="Due date">
+      <input type="file" name="background" accept="image/*">
+      <input type="file" name="pellets" accept="image/*">
+      <button type="submit">Create card</button>
+    </form>
+  {% endfor %}
+  <hr>
+  <form method="post" action="{% url 'create_list' board_id=board.id %}">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="List name">
+    <button type="submit">Create list</button>
+  </form>
+{% endblock %}

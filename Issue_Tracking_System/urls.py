@@ -1,24 +1,17 @@
-"""
-URL configuration for Issue_Tracking_System project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from apps.Board import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('Board/', views.board, name='Board'),
+    path('Board/', views.board, name='board'),
+    path('Board/create_board/', views.create_board, name='create_board'),
+    path('Board/<int:board_id>/', views.board_detail, name='board_detail'),
+    path('Board/<int:board_id>/create_list/', views.create_list, name='create_list'),
+    path('Board/<int:list_id>/create_card/', views.create_card, name='create_card'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

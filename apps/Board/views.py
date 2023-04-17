@@ -40,5 +40,3 @@ def create_card(request, list_id):
         list_obj = List.objects.get(id=list_id)
         Card.objects.create(name=name, description=description, due_date=due_date, background=background, pellets=pellets, list=list_obj)
         return redirect('board', board_id=list_obj.board.id)
-
-    

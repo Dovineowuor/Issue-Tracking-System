@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . import views
-from Projects.views import *
+from apps.Projects.views import *
 
 urlpatterns = [
     path('', views.home, name='home'),

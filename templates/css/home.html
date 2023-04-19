@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to Issue Tracker!</h1>
+    <p class="lead">Track and manage issues for your project with ease.</p>
+    <hr class="my-4">
+    <p>Get started by logging in or signing up.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Login</a>
+    <a class="btn btn-secondary btn-lg" href="{% url 'signup' %}" role="button">Signup</a>
+</div>
+{% endblock %}

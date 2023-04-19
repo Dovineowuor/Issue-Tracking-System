@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Board - {{ board.name }}{% endblock %}
+
+{% block style %}
+  <style>
+    /* Custom styles for the board page */
+    .list-group-item {
+      cursor: pointer;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <h3>Lists</h3>
+      <ul class="list-group">
+        {% for list in lists %}
+        <li class="list-group-item">{{ list.name }}</li>
+        {% endfor %}
+        <li class="list-group-item">
+          <form method="post" action="{% url 'create_list' board_id=board.id %}">
+            {% csrf_token %}
+            <div class="form-group">
+              <input type="text" name="name" class="form-control" placeholder="Add a list">
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+          </form>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-10">
+      <h1>{{ board.name }}</h1>
+      <img src="{{ board.background.url }}" alt="{{ board.name }} background">
+      <hr>
+      {% for list in lists %}
+        <h2>{{ list.name }}</h2>
+        <ul>
+          {% for card in cards %}
+            {% if card.list == list %}
+              <li>{{ card.name }}</li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+        <form method="post" action="{% url 'create_card' list_id=list.id %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            <input type="text" name="name" class="form-control" placeholder="Add a card">
+          </div>
+          <div class="form-group">
+            <textarea name="description" class="form-control" placeholder="Description"></textarea>
+          </div>
+          <div class="form-group">
+            <input type="date" name="due_date" class="form-control" placeholder="Due date">
+          </div>
+          <div class="form-group">
+            <input type="file" name="background" class="form-control-file" accept="image/*">
+          </div>
+          <div class="form-group">
+            <input type="file" name="pellets" class="form-control-file" accept="image/*">
+          </div>
+          <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+      {% endfor %}
+      <hr>
+      <form method="post" action="{% url 'create_list' board_id=board.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <input type="text" name="name" class="form-control" placeholder="Add a list">
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

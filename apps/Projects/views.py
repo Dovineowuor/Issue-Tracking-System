@@ -7,8 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Count, Sum, Avg
 from .models import Project, Issue, Comment, File
-from .models import Issue, Comment, File, Analytics
-from .models import Analytics
+from .models import Issue, Comment, File
+# Analytics
+# from .models import Analytics
 
 @login_required
 def create_project(request):
@@ -73,7 +74,6 @@ def update_issue(request, issue_id):
         issue.assigned_to = request
 
 @login_required
-def analytics_view()
 def analytics_view(request):
     analytics = Analytics()
     total_issues = analytics.get_total_issues()

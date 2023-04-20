@@ -147,7 +147,7 @@
 
 from django.db import models
 # from django.contrib.auth.models import User
-from apps.Projects.models.apps import Project
+# from apps.Projects.models.apps import Project
 from django.db import models
 from django.contrib.auth.models import User
 

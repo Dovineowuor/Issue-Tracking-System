@@ -15,6 +15,7 @@ urlpatterns = [
     path('Board/<int:board_id>/', views.board_detail, name='board_detail'),
     path('Board/<int:board_id>/create_list/', views.create_list, name='create_list'),
     path('Board/<int:list_id>/create_card/', views.create_card, name='create_card'),
+    path('__debug__/', include(debug_toolbar.urls)),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),

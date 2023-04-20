@@ -5,4 +5,4 @@ from .models import Board
 
 @admin.register(Board)
 class BoardAdmin(admin.ModelAdmin):
-    list_display = ['name', 'description']
+    list_display = ['name']

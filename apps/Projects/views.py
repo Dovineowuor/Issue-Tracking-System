@@ -73,6 +73,7 @@ def update_issue(request, issue_id):
         issue.assigned_to = request
 
 @login_required
+def analytics_view()
 def analytics_view(request):
     analytics = Analytics()
     total_issues = analytics.get_total_issues()

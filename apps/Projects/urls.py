@@ -98,4 +98,6 @@ def analytics_view(request):
         'total_file_size': total_file_size,
         'files_per_issue': files_per_issue,
     }
+
+    
     return render(request, 'analytics.html', context)

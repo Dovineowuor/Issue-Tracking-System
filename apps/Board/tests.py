@@ -2,7 +2,7 @@ from django.test import TestCase, override_settings
 from Board.models import Board, Project, Task, User, Comment
 from django.test.runner import DiscoverRunner
 
-@override_settings(INSTALLED_APPS=['Board'])
+#@override_settings(INSTALLED_APPS=['Board'])
 class MyAppTestCase(TestCase):
     def setUp(self):
         # Create a user
@@ -30,6 +30,14 @@ class MyAppTestCase(TestCase):
         # Create a comment
         self.comment_text = "Test Comment"
         self.comment = Comment.objects.create(text=self.comment_text, task=self.task, user=self.user)
+
+    def tearDown(self):
+        # Delete test data
+        self.user.delete()
+        self.board.delete()
+        self.project.delete()
+        self.task.delete()
+        self.comment.delete()
 
     def test_board_functionality(self):
         print("Running test_board_functionality...")
@@ -112,8 +120,7 @@ class MyAppTestCase(TestCase):
         response = self.client.post(f'/users/{self.user.id}/edit/', {'username': new_username})
         self.assertEqual(response.status_code, 302)
         self.user.refresh_from_db()
-        self.assertEqual(self.user.username, new_username)
-
+        self.assertEqual(self.user.username,
         # Verify user deletion
         response = self.client.post(f'/users/{self.user.id}/delete/')
         self.assertEqual(response.status_code, 302)
@@ -141,13 +148,22 @@ class MyAppTestCase(TestCase):
         self.assertNotContains(response, self.comment_text)
         print("test_comment_functionality passed.")
 
-    def main():
-    runner = DiscoverRunner(verbosity=2)
-    failures = runner.run_tests(['Board'])
-    if failures:
-        print('Tests failed')
-    else:
-        print('All tests passed')
+    def tearDown(self):
+        # Delete test data
+        self.user.delete()
+        self.board.delete()
+        self.project.delete()
+        self.task.delete()
+        self.comment.delete()
 
-    if __name__ == '__main__':
+
+    def main():
+        runner = DiscoverRunner(verbosity=2)
+        failures = runner.run_tests(['Board'])
+        if failures:
+            print('Tests failed')
+        else:
+            print('All tests passed')
+
+    if name == 'main':
         main()

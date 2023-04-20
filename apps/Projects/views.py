@@ -1,10 +1,24 @@
+from django.shortcuts import render, get_object_or_404
+from .models import Issue
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db.models import Count, Sum, Avg
 from .models import Project, Issue, Comment, File
 from .models import Issue, Comment, File
+from django.contrib import admin
+from django.contrib.auth.decorators import login_required
+from .models import Comment, File
+from django.contrib import admin
 
 # Analytics
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Issue
+
+def delete_issue(request, issue_id):
+    issue = get_object_or_404(Issue, pk=issue_id)
+    issue.delete()
+    return redirect('project_detail', project_id=issue.project.id)
 # from .models import Analytics
 
 @login_required
@@ -20,6 +34,11 @@ def create_project(request):
     else:
         form = ProjectForm()
     return render(request, 'projects/create_project.html', {'form': form})
+
+@login_required
+def issue_detail(request, issue_id):
+    issue = get_object_or_404(Issue, pk=issue_id)
+    return render(request, 'admin/project/issue_detail.html', {'issue': issue})
 
 @login_required
 def update_project(request, project_id):
@@ -106,4 +125,6 @@ def analytics_view(request):
         'total_file_size': total_file_size,
         'files_per_issue': files_per_issue,
     }
+
+    
     return render(request, 'analytics.html', context)

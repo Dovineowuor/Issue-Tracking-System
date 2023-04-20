@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from .models import Project, Issue
-from .forms import ProjectForm, IssueForm
+from django.db.models import Count, Sum, Avg
+from .models import Project, Issue, Comment, File
+from .models import Issue, Comment, File
+
+# Analytics
+# from .models import Analytics
 
 @login_required
 def create_project(request):
@@ -79,13 +82,28 @@ def update_issue(request, issue_id):
     return render(request, 'projects/update_issue.html', {'form': form, 'issue': issue})
 
 @login_required
-def delete_issue(request, issue_id):
-    issue = Issue.objects.get(id=issue_id)
-    issue.delete()
-    messages.success(request, 'Issue deleted successfully.')
-    return redirect('project_detail', issue.project.id)
-
-@login_required
-def issue_detail(request, issue_id):
-    issue = Issue.objects.get(id=issue_id)
-    return render(request, 'projects/issue_detail.html', {'issue': issue})
+def analytics_view(request):
+    analytics = Analytics()
+    total_issues = analytics.get_total_issues()
+    open_issues = analytics.get_open_issues()
+    closed_issues = analytics.get_closed_issues()
+    avg_priority = analytics.get_avg_priority()
+    issues_per_project = analytics.get_issues_per_project()
+    issues_per_user = analytics.get_issues_per_user()
+    total_comments = analytics.get_total_comments()
+    comments_per_issue = analytics.get_comments_per_issue()
+    total_file_size = analytics.get_total_file_size()
+    files_per_issue = analytics.get_files_per_issue()
+    context = {
+        'total_issues': total_issues,
+        'open_issues': open_issues,
+        'closed_issues': closed_issues,
+        'avg_priority': avg_priority,
+        'issues_per_project': issues_per_project,
+        'issues_per_user': issues_per_user,
+        'total_comments': total_comments,
+        'comments_per_issue': comments_per_issue,
+        'total_file_size': total_file_size,
+        'files_per_issue': files_per_issue,
+    }
+    return render(request, 'analytics.html', context)

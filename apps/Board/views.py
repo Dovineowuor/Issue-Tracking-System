@@ -40,3 +40,25 @@ def create_card(request, list_id):
         list_obj = List.objects.get(id=list_id)
         Card.objects.create(name=name, description=description, due_date=due_date, background=background, pellets=pellets, list=list_obj)
         return redirect('board', board_id=list_obj.board.id)
+# Issue Assignment
+def assign_issue(request, issue_id):
+    issue = Issue.objects.get(id=issue_id)
+    if request.method == 'POST':
+        assigned_to = request.POST.get('assigned_to')
+        issue.assigned_to = assigned_to
+        issue.save()
+        return redirect('issue_detail', issue_id=issue.id)
+    return render(request, 'assign_issue.html', {'issue': issue})
+    
+#  Issue Resolution
+def resolve_issue(request, issue_id):
+    # Your code here
+    return HttpResponse("Resolve Issue")
+
+def reassign_issue(request, issue_id):
+    # Your code here
+    return HttpResponse("Re-assign Issue")
+
+def manage_roles(request, role_id):
+    # Your code here
+    return HttpResponse("Manage Roles")

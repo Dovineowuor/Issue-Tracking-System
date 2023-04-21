@@ -5,10 +5,11 @@ from django.conf.urls.static import static
 from apps.Board import views as board_views
 from apps.Projects import views as project_views
 from apps.Board import views
-# from apps.Projects.views import board_list
 from django.urls import path
 
+
 urlpatterns = [
+    # Board's Url Patterns
     path('admin/', admin.site.urls),
     path('Board/', views.board, name='board'),
     path('Board/create_board/', views.create_board, name='create_board'),
@@ -20,6 +21,9 @@ urlpatterns = [
     path('board/<int:board_id>/', board_views.board_detail, name='board_detail'),
     path('board/<int:board_id>/create_list/', board_views.create_list, name='create_list'),
     path('board/<int:list_id>/create_card/', board_views.create_card, name='create_card'),
+    path('assign_issue/<int:issue_id>/', views.assign_issue, name='assign_issue'),
+    
+    #  Projects' Url Patterns
     path('', project_views.project_list, name='project_list'),
     path('create_project/', project_views.create_project, name='create_project'),
     path('<int:project_id>/', project_views.project_detail, name='project_detail'),
@@ -28,7 +32,12 @@ urlpatterns = [
     path('<int:project_id>/create_issue/', project_views.create_issue, name='create_issue'),
     path('<int:issue_id>/', project_views.issue_detail, name='issue_detail'),
     path('<int:issue_id>/update_issue/', project_views.update_issue, name='update_issue'),
-    path('<int:issue_id>/delete_issue/', project_views.delete_issue, name='delete_issue')
+    path('<int:issue_id>/delete_issue/', project_views.delete_issue, name='delete_issue'),
+# Users app url patterns
+    path('assign_issue/<int:issue_id>/', views.assign_issue, name='assign_issue'),
+    path('resolve_issue/<int:issue_id>/', views.resolve_issue, name='resolve_issue'),
+    path('reassign_issue/<int:issue_id>/', views.reassign_issue, name='reassign_issue'),
+    path('manage_roles/', views.manage_roles, name='manage_roles'),
 ]
 
 if settings.DEBUG:

@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'apps.Board',
     'apps.Projects',
     'apps.Users',
-    # 'debug_toolbar',
+    #'debug_toolbar',
 ]
 
 MIDDLEWARE = [

@@ -1,37 +1,57 @@
-from django.shortcuts import render
-
-# Create your views here.
-
+from django.shortcuts import render, get_object_or_404
+from .models import Issue
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Count, Sum, Avg
 from .models import Project, Issue, Comment, File
 from .models import Issue, Comment, File
+from django.contrib import admin
+from django.contrib.auth.decorators import login_required
+from .models import Comment, File
+from django.contrib import admin
+
 # Analytics
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Issue
+
+def delete_issue(request, issue_id):
+    issue = get_object_or_404(Issue, pk=issue_id)
+    issue.delete()
+    return redirect('project_detail', project_id=issue.project.id)
 # from .models import Analytics
 
 @login_required
 def create_project(request):
     if request.method == 'POST':
-        name = request.POST['name']
-        description = request.POST['description']
-        owner = request.user
-        project = Project.objects.create(name=name, description=description, owner=owner)
-        messages.success(request, 'Project created successfully.')
-        return redirect('project_detail', project.id)
-    return render(request, 'projects/create_project.html')
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.owner = request.user
+            project.save()
+            messages.success(request, 'Project created successfully.')
+            return redirect('project_detail', project.id)
+    else:
+        form = ProjectForm()
+    return render(request, 'projects/create_project.html', {'form': form})
+
+@login_required
+def issue_detail(request, issue_id):
+    issue = get_object_or_404(Issue, pk=issue_id)
+    return render(request, 'admin/project/issue_detail.html', {'issue': issue})
 
 @login_required
 def update_project(request, project_id):
     project = Project.objects.get(id=project_id)
     if request.method == 'POST':
-        project.name = request.POST['name']
-        project.description = request.POST['description']
-        project.save()
-        messages.success(request, 'Project updated successfully.')
-        return redirect('project_detail', project.id)
-    return render(request, 'projects/update_project.html', {'project': project})
+        form = ProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            project = form.save()
+            messages.success(request, 'Project updated successfully.')
+            return redirect('project_detail', project.id)
+    else:
+        form = ProjectForm(instance=project)
+    return render(request, 'projects/update_project.html', {'form': form, 'project': project})
 
 @login_required
 def delete_project(request, project_id):
@@ -55,23 +75,30 @@ def project_detail(request, project_id):
 def create_issue(request, project_id):
     project = Project.objects.get(id=project_id)
     if request.method == 'POST':
-        title = request.POST['title']
-        description = request.POST['description']
-        priority = request.POST['priority']
-        assigned_to = request.POST['assigned_to']
-        issue = Issue.objects.create(title=title, description=description, priority=priority, project=project, assigned_to=assigned_to, created_by=request.user)
-        messages.success(request, 'Issue created successfully.')
-        return redirect('issue_detail', issue.id)
-    return render(request, 'projects/create_issue.html', {'project': project})
+        form = IssueForm(request.POST)
+        if form.is_valid():
+            issue = form.save(commit=False)
+            issue.project = project
+            issue.created_by = request.user
+            issue.save()
+            messages.success(request, 'Issue created successfully.')
+            return redirect('issue_detail', issue.id)
+    else:
+        form = IssueForm()
+    return render(request, 'projects/create_issue.html', {'form': form, 'project': project})
 
 @login_required
 def update_issue(request, issue_id):
     issue = Issue.objects.get(id=issue_id)
     if request.method == 'POST':
-        issue.title = request.POST['title']
-        issue.description = request.POST['description']
-        issue.priority = request.POST['priority']
-        issue.assigned_to = request
+        form = IssueForm(request.POST, instance=issue)
+        if form.is_valid():
+            issue = form.save()
+            messages.success(request, 'Issue updated successfully.')
+            return redirect('issue_detail', issue.id)
+    else:
+        form = IssueForm(instance=issue)
+    return render(request, 'projects/update_issue.html', {'form': form, 'issue': issue})
 
 @login_required
 def analytics_view(request):
@@ -98,4 +125,6 @@ def analytics_view(request):
         'total_file_size': total_file_size,
         'files_per_issue': files_per_issue,
     }
+
+    
     return render(request, 'analytics.html', context)

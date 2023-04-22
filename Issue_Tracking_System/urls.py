@@ -6,6 +6,7 @@ from apps.Board import views as board_views
 from apps.Projects import views as project_views
 from apps.Board import views
 from django.urls import path
+import debug_toolbar
 
 
 urlpatterns = [
@@ -38,6 +39,7 @@ urlpatterns = [
     path('resolve_issue/<int:issue_id>/', views.resolve_issue, name='resolve_issue'),
     path('reassign_issue/<int:issue_id>/', views.reassign_issue, name='reassign_issue'),
     path('manage_roles/', views.manage_roles, name='manage_roles'),
+    path('__debug__/', include(debug_toolbar.urls)),
 ]
 
 if settings.DEBUG:

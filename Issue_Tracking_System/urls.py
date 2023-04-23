@@ -6,7 +6,7 @@ from apps.Board import views as board_views
 from apps.Projects import views as project_views
 from apps.Board import views
 from django.urls import path
-import debug_toolbar
+# import debug_toolbar
 
 
 urlpatterns = [

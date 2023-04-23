@@ -34,12 +34,12 @@ urlpatterns = [
     path('<int:issue_id>/', project_views.issue_detail, name='issue_detail'),
     path('<int:issue_id>/update_issue/', project_views.update_issue, name='update_issue'),
     path('<int:issue_id>/delete_issue/', project_views.delete_issue, name='delete_issue'),
-# Users app url patterns
+    # Users app url patterns
     path('assign_issue/<int:issue_id>/', views.assign_issue, name='assign_issue'),
     path('resolve_issue/<int:issue_id>/', views.resolve_issue, name='resolve_issue'),
     path('reassign_issue/<int:issue_id>/', views.reassign_issue, name='reassign_issue'),
     path('manage_roles/', views.manage_roles, name='manage_roles'),
-    path('__debug__/', include(debug_toolbar.urls)),
+    # path('__debug__/', include(debug_toolbar.urls)),
 ]
 
 if settings.DEBUG:

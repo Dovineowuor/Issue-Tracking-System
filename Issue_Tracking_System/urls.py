@@ -39,7 +39,7 @@ urlpatterns = [
     path('resolve_issue/<int:issue_id>/', views.resolve_issue, name='resolve_issue'),
     path('reassign_issue/<int:issue_id>/', views.reassign_issue, name='reassign_issue'),
     path('manage_roles/', views.manage_roles, name='manage_roles'),
-    path('__debug__/', include(debug_toolbar.urls)),
+    # path('__debug__/', include(debug_toolbar.urls)),
 ]
 
 if settings.DEBUG:

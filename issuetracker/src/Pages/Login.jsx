@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 
 const Login = () => {
-    const [ year, setYear ] = useState()
+    const [year, setYear] = useState()
 
-    useEffect(()=>{
-        const getYear = () =>{
+    useEffect(() => {
+        const getYear = () => {
             setYear(new Date().getFullYear())
         };
         getYear();
-    },[])
-    
+    }, [])
+
     return (
         <div className="font-sans min-h-screen antialiased bg-gray-900 pt-24 pb-5">
             <div className="flex flex-col justify-center  sm:w-96 sm:m-auto mx-5 mb-5 space-y-8">
@@ -26,8 +26,19 @@ const Login = () => {
                             <input type="password" name="password" id="password" className="border-2 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-400 focus:shadow" placeholder="Password" />
                         </div>
 
+                        <div className="flex flex-col space-y-1">
+                            <label htmlFor="user-type">User Type:</label>
+                            <select name="user-type" id="user-type" className="border-2 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-400 focus:shadow">
+                                <option value="">Role</option>
+                                <option value="developer">Developer</option>
+                                <option value="super-admin">Super Admin</option>
+                                <option value="manager">Manager</option>
+                            </select>
+                        </div>
+
+
                         <div className="flex gap-1">
-                            <input type="checkbox" name="remember" id="remember"  className="inline-block align-middle" />
+                            <input type="checkbox" name="remember" id="remember" className="inline-block align-middle" />
                             <label className="inline-block align-middle">Remember me</label>
                         </div>
 

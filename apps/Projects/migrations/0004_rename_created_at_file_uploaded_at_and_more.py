@@ -26,11 +26,12 @@ class Migration(migrations.Migration):
             model_name='file',
             name='updated_at',
         ),
+        
         migrations.AddField(
             model_name='comment',
             name='author',
-            field=models.ForeignKey(default=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='authored_comments', to=settings.AUTH_USER_MODEL), on_delete=django.db.models.deletion.CASCADE, related_name='authored_comments', to=settings.AUTH_USER_MODEL),
-        ),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='authored_comments', to=settings.AUTH_USER_MODEL),
+),
         migrations.AddField(
             model_name='file',
             name='issue',

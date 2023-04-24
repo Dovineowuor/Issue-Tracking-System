@@ -1,10 +1,23 @@
 from django.shortcuts import render
-
 # Create your views here.
 # views.py
 from django.shortcuts import render, redirect
 from .models import Board, List, Card
 from django.http import HttpResponse
+# Boardview serializers
+
+from rest_framework import viewsets
+from .models import Board
+from .serializers import BoardSerializer
+# End serializers
+
+class BoardViewSet(viewsets.ModelViewSet):
+    queryset = Board.objects.all()
+    serializer_class = BoardSerializer
+
+
+def index(request):
+    return render(request, 'issuetracker/index.html')
 
 def board(request):
     return render(request, 'board.html')

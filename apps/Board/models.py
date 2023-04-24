@@ -2,7 +2,8 @@ from django.db import models
 
 # Create your Models here
 class Board(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=255)
+    background = models.ImageField(upload_to='board_backgrounds/')
     description = models.TextField(blank=True)
 
     def __str__(self):

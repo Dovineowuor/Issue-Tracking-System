@@ -1,11 +1,22 @@
 from django.urls import path, include
 from . import views
 from apps.Projects.views import *
-
 from django.urls import path
 from . import views
 
+from django.urls import path, include
+from rest_framework import routers
+from apps.Board.views import BoardViewSet
+
+router = routers.DefaultRouter()
+router.register(r'boards', BoardViewSet)
+
+
 urlpatterns = [
+
+  # React routing path
+    path('', include(router.urls)),
+    # end
     path('<path:path>/', views.some_view)
     re_path(r'^(?P<path>.*)$', views.some_view)
     path('', views.project_list, name='project_list'),

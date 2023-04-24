@@ -1,6 +1,7 @@
 amqp==5.1.1
 asgiref==3.6.0
 auth0-python==4.1.0
+axios==0.3.0
 billiard==3.6.4.0
 celery==5.2.7
 certifi==2022.12.7
@@ -17,6 +18,8 @@ cycler==0.11.0
 distlib==0.3.6
 Django==4.2
 django-debug-toolbar==4.0.0
+django-rest-framework==0.1.0
+djangorestframework==3.14.0
 ecdsa==0.18.0
 env==0.1.0
 filelock==3.11.0
@@ -24,7 +27,10 @@ fonttools==4.39.3
 idna==3.4
 kiwisolver==1.4.4
 kombu==5.2.4
+lxml==4.9.2
+markdown-it-py==2.2.0
 matplotlib==3.7.1
+mdurl==0.1.2
 node==1.2.1
 npm==0.1.1
 numpy==1.24.2
@@ -37,12 +43,14 @@ plumber==1.7
 prompt-toolkit==3.0.38
 pyasn1==0.5.0
 pycparser==2.21
+Pygments==2.15.1
 PyJWT==2.6.0
 pyparsing==3.0.9
 python-dateutil==2.8.2
 python-jose==3.3.0
 pytz==2023.3
 requests==2.28.2
+rich==13.3.4
 rsa==4.9
 six==1.16.0
 sqlparse==0.4.3

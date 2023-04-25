@@ -1,8 +1,10 @@
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+from apps.Projects.models import Issue
 from .models import Board, List, Card
-from .serializers import BoardSerializer, ListSerializer, CardSerializer
+from .serializers import BoardSerializer, ListSerializer, CardSerializer, IssueSerializer
 
 @api_view(['GET'])
 def board_list(request):
@@ -57,7 +59,7 @@ def create_card(request, list_id):
 
 @api_view(['POST'])
 def assign_issue(request, issue_id):
-    issue = Issue.objects.get(id=issue_id)
+    issue = Board.IssueSerializerIssue.objects.get(id=issue_id)
     issue.assigned_to = request.data.get('assigned_to')
     issue.save()
     serializer = IssueSerializer(issue)

@@ -12,12 +12,12 @@ from django.urls import path
 urlpatterns = [
     # Board's Url Patterns
     path('admin/', admin.site.urls),
-    path('Board/', views.board, name='board'),
+    path('Board/', views.Board, name='board'),
     path('Board/create_board/', views.create_board, name='create_board'),
     path('Board/<int:board_id>/', views.board_detail, name='board_detail'),
     path('Board/<int:board_id>/create_list/', views.create_list, name='create_list'),
     path('Board/<int:list_id>/create_card/', views.create_card, name='create_card'),
-    path('board/', board_views.board, name='board'),
+    path('board/', board_views.Board, name='board'),
     path('board/create_board/', board_views.create_board, name='create_board'),
     path('board/<int:board_id>/', board_views.board_detail, name='board_detail'),
     path('board/<int:board_id>/create_list/', board_views.create_list, name='create_list'),

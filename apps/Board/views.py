@@ -1,7 +1,6 @@
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
 from apps.Projects.models import Issue
 from .models import Board, List, Card
 from .serializers import BoardSerializer, ListSerializer, CardSerializer, IssueSerializer

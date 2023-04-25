@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Board, List, Card
+from .models import Board, List, Card,
+from *.models import Issues, Users, Projects
 
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:

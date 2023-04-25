@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.Board',
     'apps.Projects',
     'apps.Users',
+    'rest_framework'
     #'debug_toolbar',
 ]
 

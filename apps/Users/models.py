@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 from apps.Projects.models import Issue, Project
 import redis
 
@@ -12,6 +13,7 @@ import redis
 # For user requests, we've added a static method get_user_issues that retrieves all user issues
 #  based on the user ID. This method works in a similar way to get_user_issue, but retrieves a list 
 # of user issues instead of a single issue.
+
 
 # create Redis client
 redis_client = redis.Redis(host='localhost', port=6379, db=0)
@@ -34,9 +36,6 @@ class UserIssue(models.Model):
     class Meta:
         # use the mysql database for this model
         db_table = "user_issue"
-        # set the database to use for this model
-        # using = 'mysql'
-        # The `using` attribute is no longer needed since it is already specified in the `DATABASES` setting in the settings.py file.
 
     # add caching for user inputs
     @staticmethod

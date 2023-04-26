@@ -1,6 +1,9 @@
+from asyncio import Task
 from http.client import responses
 from django.test import TestCase, override_settings
-from Board.models import Board, Project, Task, User, Comment
+from .models import Board, User
+from apps.Projects.models import Comment, Project
+from apps.Projects.serializers import User, Board, Project, User, Comment
 from django.test.runner import DiscoverRunner
 import django
 

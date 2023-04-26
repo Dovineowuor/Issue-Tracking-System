@@ -6,10 +6,20 @@ from django.utils import timezone
 
 redis_cache = get_redis_connection("default")
 
+
 class Project(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name='projects', null=True, blank=True)
+    STATUS_CHOICES = (
+        ('complete', 'Complete'),
+        ('in_progress', 'In Progress'),
+        ('not_started', 'Not Started'),
+    )
+
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='not_started')
 
     def __str__(self):
         return self.name
@@ -22,6 +32,12 @@ class Project(models.Model):
             redis_cache.set("projects", projects)
         return projects
 
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
+        super().save(*args, **kwargs)
+
 class Issue(models.Model):
     STATUS_CHOICES = [('open', 'Open'), ('closed', 'Closed')]
     PRIORITY_CHOICES = [('low', 'Low'), ('medium', 'Medium'), ('high', 'High')]
@@ -30,29 +46,41 @@ class Issue(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='open')
-    priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='low')
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assigned_issues')
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_issues')
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default='open'
+    )
+    priority = models.CharField(
+        max_length=20, choices=PRIORITY_CHOICES, default='low'
+    )
+    project = models.ForeignKey(
+        Project, on_delete=models.CASCADE
+    )
+    assigned_to = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='assigned_issues'
+    )
+    created_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='created_issues'
+    )
 
     def __str__(self):
         return self.title
 
-@staticmethod
-def get_cached_issues(project_id):
-    issues = redis_cache.get("issues_{}".format(project_id))
-    if issues is None:
-        issues = list(Issue.objects.filter(project_id=project_id))
-        redis_cache.set("issues_{}".format(project_id), issues)
-    return issues
+    @staticmethod
+    def get_cached_issues(project_id):
+        issues = redis_cache.get("issues_{}".format(project_id))
+        if issues is None:
+            issues = list(Issue.objects.filter(project_id=project_id))
+            redis_cache.set("issues_{}".format(project_id), issues)
+        return issues
 
 
 class File(models.Model):
     name = models.CharField(max_length=255)
     file = models.FileField(upload_to='files/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
-    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='files', default=None)
+    issue = models.ForeignKey(
+        Issue, on_delete=models.CASCADE, related_name='files', default=None
+    )
 
     def __str__(self):
         return self.name
@@ -62,8 +90,15 @@ class Comment(models.Model):
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='authored_comments', default=models.ForeignKey(User, on_delete=models.CASCADE, related_name='authored_comments'))
-    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='authored_comments',
+        default=models.ForeignKey(
+            User, on_delete=models.CASCADE, related_name='authored_comments'
+        )
+    )
+    issue = models.ForeignKey(
+        Issue, on_delete=models.CASCADE, related_name='comments'
+    )
 
     def __str__(self):
         return self.text[:50] + "..." if len(self.text) > 50 else self.text
@@ -76,18 +111,32 @@ class Comment(models.Model):
             redis_cache.set("comments_{}".format(issue_id), comments)
         return comments
 
+
+from django.db import models
+
+class Analytics(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    url = models.URLField()
+    ip_address = models.GenericIPAddressField()
+    user_agent = models.CharField(max_length=255)
+    # add any other fields you want to track
+
+    def __str__(self):
+        return f"{self.url} accessed at {self.timestamp}"
+
+
 class DatabaseRouter:
     def db_for_read(self, model, **hints):
-        if model._meta.app_label == 'apps':
+        if model._meta.app_label == 'projects':
             return 'default'
         return None
 
     def db_for_write(self, model, **hints):
-        if model._meta.app_label == 'apps':
+        if model._meta.app_label == 'projects':
             return 'default'
         return None
 
     def allow_relation(self, obj1, obj2, **hints):
-        if obj1._meta.app_label == 'apps' and obj2._meta.app_label == 'apps':
+        if obj1._meta.app_label == 'projects' and obj2._meta.app_label == 'projects':
             return True
         return None

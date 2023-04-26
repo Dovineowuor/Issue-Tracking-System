@@ -122,8 +122,7 @@ class MyAppTestCase(django.test.TestCase):
         response = self.client.post(f'/users/{self.user.id}/edit/', {'username': new_username})
         self.assertEqual(response.status_code, 302)
         self.user.refresh_from_db()
-        self.assertEqual(self.user.username, new_username)
-
+        self.assertEqual(self.user.username,)
         # Verify user deletion
         response = self.client.post(f'/users/{self.user.id}/delete/')
         self.assertEqual(response.status_code, 302)

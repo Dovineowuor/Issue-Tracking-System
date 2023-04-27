@@ -20,13 +20,10 @@ defusedxml==0.7.1
 distlib==0.3.6
 Django==4.2
 django-debug-toolbar==4.0.0
-<<<<<<< HEAD
 django-rest-framework==0.1.0
-=======
 django-redis==5.2.0
 django-rest-framework==0.1.0
 django-restframework==0.0.1
->>>>>>> main
 djangorestframework==3.14.0
 ecdsa==0.18.0
 env==0.1.0
@@ -40,12 +37,9 @@ lxml==4.9.2
 markdown-it-py==2.2.0
 matplotlib==3.7.1
 mdurl==0.1.2
-<<<<<<< HEAD
-=======
 multidict==6.0.4
 mysql==0.0.3
 mysqlclient==2.1.1
->>>>>>> main
 node==1.2.1
 npm==0.1.1
 numpy==1.24.2
@@ -67,10 +61,7 @@ python-jose==3.3.0
 pytz==2023.3
 redis==4.5.4
 requests==2.28.2
-<<<<<<< HEAD
-=======
 requests-toolbelt==0.10.1
->>>>>>> main
 rich==13.3.4
 rsa==4.9
 six==1.16.0

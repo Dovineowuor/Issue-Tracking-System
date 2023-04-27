@@ -1,5 +1,6 @@
 
- import bugmodel from "E:/alx-zero_day/bugtruckerfrontend/frontend/src/Models/bugmodel.js"
+ //import bugmodel from "E:/alx-zero_day/bugtruckerfrontend/frontend/src/Models/bugmodel.js"
+ import bugmodel from "../../Models/bugModels";
 
 export function retrievebugs(){
     let data=[];

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import './bugview.css'
 import Bugviewsection from './component/bugviewsection'
-import bugmodel from "E:/alx-zero_day/bugtruckerfrontend/frontend/src/Models/bugmodel.js"
+import bugmodel from "../../Models/bugModels";
+
 import { useDispatch } from 'react-redux'
 //import {markComplete} from '../../Controlers/Redux/authSlice'
 import { markcomplete } from '../../Controlers/Redux/bugSlice'

@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from apps.Board.models import Board
 from django_redis import get_redis_connection
 from django.utils import timezone
 
@@ -33,10 +32,11 @@ class Project(models.Model):
         return projects
 
     def save(self, *args, **kwargs):
-        if not self.id:
+        if not self.pk:
             self.created_at = timezone.now()
         self.updated_at = timezone.now()
         super().save(*args, **kwargs)
+
 
 class Issue(models.Model):
     STATUS_CHOICES = [('open', 'Open'), ('closed', 'Closed')]
@@ -92,16 +92,13 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='authored_comments',
-        default=models.ForeignKey(
-            User, on_delete=models.CASCADE, related_name='authored_comments'
-        )
     )
     issue = models.ForeignKey(
         Issue, on_delete=models.CASCADE, related_name='comments'
     )
 
     def __str__(self):
-        return self.text[:50] + "..." if len(self.text) > 50 else self.text
+        return self.text[:50] if len(self.text) > 50 else self.text
 
     @staticmethod
     def get_cached_comments(issue_id):
@@ -110,33 +107,3 @@ class Comment(models.Model):
             comments = list(Comment.objects.filter(issue_id=issue_id))
             redis_cache.set("comments_{}".format(issue_id), comments)
         return comments
-
-
-from django.db import models
-
-class Analytics(models.Model):
-    timestamp = models.DateTimeField(auto_now_add=True)
-    url = models.URLField()
-    ip_address = models.GenericIPAddressField()
-    user_agent = models.CharField(max_length=255)
-    # add any other fields you want to track
-
-    def __str__(self):
-        return f"{self.url} accessed at {self.timestamp}"
-
-
-class DatabaseRouter:
-    def db_for_read(self, model, **hints):
-        if model._meta.app_label == 'projects':
-            return 'default'
-        return None
-
-    def db_for_write(self, model, **hints):
-        if model._meta.app_label == 'projects':
-            return 'default'
-        return None
-
-    def allow_relation(self, obj1, obj2, **hints):
-        if obj1._meta.app_label == 'projects' and obj2._meta.app_label == 'projects':
-            return True
-        return None

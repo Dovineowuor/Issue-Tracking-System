@@ -56,6 +56,12 @@ def create_card(request, list_id):
         return Response(serializer.data, status=201)
     return Response(serializer.errors, status=400)
 
+@api_view(['GET'])
+def get_cards(request, list_id):
+    cards = Card.objects.filter(list_id=list_id)
+    serializer = CardSerializer(cards, many=True)
+    return Response(serializer.data)
+
 @api_view(['POST'])
 def assign_issue(request, issue_id):
     issue = Issue.objects.get(id=issue_id)

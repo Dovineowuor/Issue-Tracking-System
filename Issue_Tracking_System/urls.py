@@ -11,6 +11,7 @@ from django.urls import path
 
 urlpatterns = [
     # Board's Url Patterns
+    path('', include('django.contrib.auth.urls'))
     path('admin/', admin.site.urls),
     path('Board/', views.Board, name='board'),
     path('Board/create_board/', views.create_board, name='create_board'),

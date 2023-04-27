@@ -93,7 +93,7 @@ class Issue(models.Model):
     description = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='New')
     assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField()
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

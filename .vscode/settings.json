@@ -2,5 +2,6 @@
     "cSpell.enableFiletypes": [
         "sql"
     ],
-    "cSpell.language": "en,lorem"
+    "cSpell.language": "en,lorem",
+    "python.pythonPath": "dove-env\\Scripts\\python.exe"
 }

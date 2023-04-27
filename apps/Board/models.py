@@ -1,8 +1,16 @@
+from asyncio import TaskGroup
 from django.db import models
 import redis
 import json
 
 # Create your models here.
+from django.db import models
+import redis
+import json
+
+# Create your models here.
+from django.contrib.auth.models import User
+
 
 class Board(models.Model):
     name = models.CharField(max_length=100)
@@ -36,6 +44,15 @@ class List(models.Model):
     def __str__(self):
         return self.name
 
+
+class Comment(models.Model):
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    # task = models.ForeignKey(TaskGroup, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
 class Card(models.Model):
     list = models.ForeignKey(List, on_delete=models.CASCADE, related_name='cards')
     name = models.CharField(max_length=255)
@@ -57,4 +74,27 @@ class Card(models.Model):
             # If data is available in Redis cache, return it
             return json.loads(cards)
 
-        # If data is not available in Redis cache, fetch it from
+        # If data is not available in Redis cache, fetch it from database
+        cards = cls.objects.filter(list_id=list_id).values('id', 'name', 'description', 'due_date')
+
+        # Store fetched data in Redis cache
+        r.set(f'cards_{list_id}', json.dumps(list(cards)))
+        return cards
+
+
+class Issue(models.Model):
+    STATUS_CHOICES = [
+        ('New', 'New'),
+        ('In Progress', 'In Progress'),
+        ('Resolved', 'Resolved'),
+    ]
+
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='New')
+    assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title

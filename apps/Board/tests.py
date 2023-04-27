@@ -1,9 +1,14 @@
+from asyncio import Task
+from http.client import responses
 from django.test import TestCase, override_settings
-from Board.models import Board, Project, Task, User, Comment
+from .models import Board, User
+from apps.Projects.models import Comment, Project
+from apps.Projects.serializers import User, Board, Project, User, Comment
 from django.test.runner import DiscoverRunner
+import django
 
 #@override_settings(INSTALLED_APPS=['Board'])
-class MyAppTestCase(TestCase):
+class MyAppTestCase(django.test.TestCase):
     def setUp(self):
         # Create a user
         self.user = User.objects.create(username='testuser')
@@ -120,50 +125,41 @@ class MyAppTestCase(TestCase):
         response = self.client.post(f'/users/{self.user.id}/edit/', {'username': new_username})
         self.assertEqual(response.status_code, 302)
         self.user.refresh_from_db()
-        self.assertEqual(self.user.username,
+        self.assertEqual(self.user.username,)
         # Verify user deletion
         response = self.client.post(f'/users/{self.user.id}/delete/')
         self.assertEqual(response.status_code, 302)
         response = self.client.get('/users/')
-        self.assertNotContains(response, self.user.username)
+        self.assertNotContains(responses, self.user.username)
         print("test_user_functionality passed.")
 
-    def test_comment_functionality(self):
-        print("Running test_comment_functionality...")
-        # Verify comment creation
-        response = self.client.get(f'/tasks/{self.task.id}/')
-        self.assertContains(response, self.comment_text)
+def test_comment_functionality(self):
+    print("Running test_comment_functionality...")
+    # Verify comment creation
+    response = self.client.get(f'/tasks/{self.task.id}/')
+    self.assertContains(response, self.comment_text)
 
-        # Verify comment editing
-        new_comment_text = "New Comment"
-        response = self.client.post(f'/comments/{self.comment.id}/edit/', {'text': new_comment_text})
-        self.assertEqual(response.status_code, 302)
-        self.comment.refresh_from_db()
-        self.assertEqual(self.comment.text, new_comment_text)
+    # Verify comment editing
+    new_comment_text = "New Comment"
+    response = self.client.post(f'/comments/{self.comment.id}/edit/', {'text': new_comment_text})
+    self.assertEqual(response.status_code, 302)
+    self.comment.refresh_from_db()
+    self.assertEqual(self.comment.text, new_comment_text)
 
-        # Verify comment deletion
-        response = self.client.post(f'/comments/{self.comment.id}/delete/')
-        self.assertEqual(response.status_code, 302)
-        response = self.client.get(f'/tasks/{self.task.id}/')
-        self.assertNotContains(response, self.comment_text)
-        print("test_comment_functionality passed.")
+    # Verify comment deletion
+    response = self.client.post(f'/comments/{self.comment.id}/delete/')
+    self.assertEqual(response.status_code, 302)
+    response = self.client.get(f'/tasks/{self.task.id}/')
+    self.assertNotContains(response, self.comment_text)
+    print("test_comment_functionality passed.")
 
-    def tearDown(self):
-        # Delete test data
-        self.user.delete()
-        self.board.delete()
-        self.project.delete()
-        self.task.delete()
-        self.comment.delete()
+def main():
+    runner = DiscoverRunner(verbosity=2)
+    failures = runner.run_tests(['Board'])
+    if failures:
+        print('Tests failed')
+    else:
+        print('All tests passed')
 
-
-    def main():
-        runner = DiscoverRunner(verbosity=2)
-        failures = runner.run_tests(['Board'])
-        if failures:
-            print('Tests failed')
-        else:
-            print('All tests passed')
-
-    if name == 'main':
-        main()
+if __name__ == '__main__':
+    main()

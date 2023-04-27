@@ -5,7 +5,7 @@ This is a project to build an issue tracking system.
 
 # App Features Repository
 
-This repository showcases all the respective features implemented on this app with redference to their files. Each fdirectory conteis respective app functionality.
+This repository showcases all the respective features implemented on this app with reference to their files. Each directory contains respective app functionality.
 
 ## App Features
 
@@ -28,32 +28,32 @@ This repository showcases all the respective features implemented on this app wi
 	This feature app handles the Issue creation and handling. We created a model to store the details of each issue and use Django's forms to validate user input. We also created views to handle different actions such as creating a new issue, updating an issue, and assigning an issue to a Client ... etc
 
 ### Issue Tracking and Resolution App
-	This Feature helps in tracking the state and status of an Issue whether resolved, In Progress, Closed or Open. We create dviews to display a list of open issues, resolved issues, In progress issues and closed. We also created views to handle different actions like marking an issue as resolved 
+	This Feature helps in tracking the state and status of an Issue whether resolved, In Progress, Closed or Open. We create views to display a list of open issues, resolved issues, In progress issues and closed. We also created views to handle different actions like marking an issue as resolved 
 (Resolve), In Progress (`In Progress`), Open,(`Open`), and closing an issue (`Close`).
 
 ### Issue Assignment App
 	This app handles the assignment of issues to different users. We created a model to store the assignments and use views to handle the assignment of issues.
 
 ### Real-Time Notification System
-	This feature handles the information and keeping up to date the information and mailing system of the app whe issue statuses change eg Clodes, New Issue(Open), ... etc. We used django channel to implement real-time notification and send notification to users via email or push notification.
+	This feature handles the information and keeping up to date the information and mailing system of the app whe issue statuses change eg Closed, New Issue(Open), ... etc. We used django channel to implement real-time notification and send notification to users via email or push notification.
 
 ### Files and Document Handling
 	This feature app handles files and documents opening, editing, creating, deleting and updating uploading and downloading files and documents.
 
 ### Automatic Memo Creation 
-	This feature app handles creation of automatic memos when an issue is raised, an issue status changes and an issue is resolved(`clodes`) and also will send the to respective appropriate users.
+	This feature app handles creation of automatic memos when an issue is raised, an issue status changes and an issue is resolved(`closed`) and also will send the to respective appropriate users.
 
 ### Data Analytics
-	This feature app will handle analytics of the issues related. We used a django builtin analytics tool intergrating additional analytic functionalities using third party appllications.
+	This feature app will handle analytics of the issues related. We used a django builtin analytics tool integrating additional analytic functionalities using third party applications.
 
 ### Team Management
 	This app handles team management tasks such as adding new team members, updating team information, and deleting team members. We created a model to store team information and use views to handle team management tasks.
 
 ## Third Party Apps
 	1- Auth0;
-This app handles authenyication and authentication states. It also handles app security features.
+This app handles authentication and authentication states. It also handles app security features.
 
-## Project Stracture
+## Project Structure
 
 	issue_tracking_system/
 	├── src/

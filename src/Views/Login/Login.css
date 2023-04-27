@@ -1,0 +1,37 @@
+.loginbg {
+    width: 100vw;
+    height: 105vh;
+    background-size: cover;
+
+    background-color: #00235B;
+    grid-column: 1/2;
+    background-attachment: fixed;
+    position: absolute;
+}
+
+.login-panel {
+    background-color: var(--prim-color);
+    width: 30vw;
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin: 25vh auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+.login-panel h1 {
+    width: 100%;
+
+}
+
+.login-panel input {
+    width: 70%;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    margin: 10px;
+    padding-left: 5px;
+
+}

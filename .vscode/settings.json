@@ -3,5 +3,8 @@
         "sql"
     ],
     "cSpell.language": "en,lorem",
-    "python.pythonPath": "dove-env\\Scripts\\python.exe"
+    "python.pythonPath": "dove-env\\Scripts\\python.exe",
+    "cSpell.words": [
+        "intergration"
+    ]
 }
